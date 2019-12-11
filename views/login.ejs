@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form method="POST" action="/auth/login">
+        <center><br><br><br><br>
+        Enter Username:<input type="text" name="name"  ><p style="font-size: 15px ;text-decoration-color:red "><%= typeof usermessage=='undefined'? " ":usermessage%> </p>
+        Enter Password :<input type="password" name="password"  />
+        <p style="font-size: 15px ;text-decoration-color:red "><%= typeof passmessage=='undefined'? " ":passmessage%> </p><br><br>
+
+        <input type="submit"  value="Login"  />
+        <br>
+        <a href="/register">Create account</a> /  <a href="/resetpassword">forgot password</a>
+
+        <br><br><br>
+        <p style="font-size: 15px ;text-decoration-color:red "><%= typeof message=='undefined'? " ":message%> </p>
+    </center>   
+    </form>
+</body>
+</html>

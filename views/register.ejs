@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST" action="/auth/register">
+        <center>
+        <table >
+            <tr><td> UserName: </td><td><input type="text" name="username"></td><td><p style="font-size: 15px ;text-decoration-color:red "><%= typeof usermessage=='undefined'? " ":usermessage%> </p></td></tr><br>
+            <tr><td> Email   : </td><td><input type="email" name="email"></td><td><p style="font-size: 15px ;text-decoration-color:red "><%= typeof emailmessage=='undefined'? " ":emailmessage%> </p></td></tr><br>
+            <tr><td> Password: </td><td><input type="password" name="password"></td><td><p style="font-size: 15px ;text-decoration-color:red "><%= typeof passmessage=='undefined'? " ":passmessage%> </p></td></tr><br>
+
+        </table>
+        <br>
+            <input type="submit" name="Signup" />
+            <br> <br> <br>
+            
+            <p style="font-size: 15px ;text-decoration-color:red "><%= typeof message=='undefined'? " ":message%> </p>
+
+            <a href="/login" style="font-size: 20px">login</a>
+    </center>
+    </form>
+</body>
+</html>

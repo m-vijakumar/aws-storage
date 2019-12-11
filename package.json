@@ -1,0 +1,26 @@
+{
+  "name": "proxynotes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "vijay",
+  "license": "ISC",
+  "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
+    "add": "^2.0.6",
+    "aws-sdk": "^2.588.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.0",
+    "random-number": "0.0.9",
+    "sendgrid": "^5.2.3",
+    "yarn": "^1.21.1"
+  }
+}
