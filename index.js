@@ -5,7 +5,6 @@ const ejs =require("ejs");
 const app = express(); 
 const key = require("./setup/connect").sceret;
 const sgMail = require('@sendgrid/mail');
-
 const cookieparser = require("cookie-parser");
 
 
@@ -49,7 +48,7 @@ app.get("/",(req,res)=>{
 
 
 // var request = sg.emptyRequest({
-// method: 'POST',
+// method: 'post',
 // path: '/v3/mail/send',
 // body: mail.toJSON()
 // });
@@ -63,6 +62,25 @@ app.get("/",(req,res)=>{
 // console.log(response.headers);
 // res.render("home");
 // });
+sgMail.setApiKey('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');
+
+
+    sgMail.send({
+        to: 'vijaykumar416p@gmail.com',
+        from: 'vijaykumar416p@gmail.com',
+        subject: 'vijaykumar',
+        text: `sample proxy notes 1235679`,
+        html: '<strong>and easy to do anywhere, even with Node.js</strong>'
+    })
+    .then(send =>{
+    
+        console.log(send)
+    })
+    .catch(err =>{
+        console.log(err);
+        res.render("error");
+    } )
+    
 
 res.render("home");
 });
