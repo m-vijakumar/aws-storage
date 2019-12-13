@@ -18,8 +18,8 @@ const newusers= require("../../models/newuser");
 var kkraj;
 
 AWS.config.update({
-  accessKeyId: 'AKIA4TLUMF543DHEL26U',
-  secretAccessKey: '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',
+  accessKeyId: '.................',
+  secretAccessKey: '..........................',
   region: 'ap-south-1'
 });
 
