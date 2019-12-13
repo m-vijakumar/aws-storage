@@ -1,75 +1,102 @@
 const express=require("express");
-const mongooose =require("mongoose");
 const bodyparser=require("body-parser");
-const bcrypt=require("bcryptjs");
 const jsonwt=require("jsonwebtoken")
 const router =express.Router();
 const key =require("../../setup/connect").sceret;
 const cookieparser = require("cookie-parser");
-var path = require('path');
-var fs =require('fs')
 const AWS =require('aws-sdk');
-  
-AWS.config.update({
-  accessKeyId: 'AKIA4TLUMF54XQDBTRUR',
-  secretAccessKey: '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',
-  region: 'ap-south-1'
-});
+const multer = require('multer') ;
+var storage = multer.memoryStorage();
+var upload = multer({storage : storage}).single("mediafile");
+
 
 router.use(bodyparser.urlencoded({extended:false}));
 router.use(bodyparser.json());
 router.use(cookieparser());
 const newusers= require("../../models/newuser");
 
+var kkraj;
+
+AWS.config.update({
+  accessKeyId: 'AKIA4TLUMF543DHEL26U',
+  secretAccessKey: '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',
+  region: 'ap-south-1'
+});
+
 // @type    GET
-//@route    /auth/emailverification
+//@route    /api/media/upload
 // @desc    starting router
 // @access  PUBLIC
 
 router.get("/upload",(req,res)=>{
 
-    res.render("upload");
+  jsonwt.verify(req.cookies.auth_t, key, (err, user) => {
+    if(err){
+    return res.redirect("/login");
+    }
+    else{
+      res.render("upload");
+    }
+  })
 
 })
 
 // @type    POST
-//@route    /auth/emailverification
+//@route    /api/media/upload/aws
 // @desc    starting router
 // @access  PUBLIC
 const s3 = new AWS.S3()
 router.post("/upload/aws", async (req,res)=>{
-       console.log("filee   "+ req.files.filename);
-       var uploadParams = {Bucket: 'proxynotes', Key: '', Body: ''};
-var file = req.body.mediafile;
+  // console.log(`myuploads/${req}`);
+ await jsonwt.verify(req.cookies.auth_t, key, (err, user) => {
+    if(err){
+    return res.redirect("/login");
+    }
+    else{
+       var uploadParams = {
+         Bucket: 'proxynotes',
+         Key: '',
+         ACL: 'public-read',
+         Body: ''};
+          
+           upload(req,res,(error)=>{
+          if(error){
+            res.render('error');
+          }else{
+            uploadParams.Key =`${user.username}_${req.file.originalname}`;
+            uploadParams.Body = req.file.buffer;
 
-       var fileStream = fs.createReadStream(file);
-          fileStream.on('error', function(err) {
-            console.log('File Error', err);
-          });
-        uploadParams.Body = fileStream;
-        
-        uploadParams.Key = path.basename(file);
-        s3.upload (uploadParams, function (err, data) {
-          if (err) {
-            console.log("Error", err);
-          } if (data) {
-            console.log("Upload Success", data.Location);
-          }
-        });
-try{
-
-    
-  const response = await s3.listObjectsV2({
-    Bucket : "proxynotes"
-  }).promise();
-
-  console.log(response);
-
-}catch(e){
-      console.log("error   "+e)
-}
-       
-    res.send(`<html><body>gvhgcfcgf<iframe src="${req.body.mediafile}"></iframe></body></html>`)
+            s3.upload (uploadParams, function (err, data) {
+              if (err) {
+                console.log("Error", err);
+                res.render('error');
+              } if (data) {
+                kkraj =data.Location;
+                console.log("Upload Success", data.Location);
+                newusers.findOne({email:user.email})
+                .then(r =>{
+                  r.videos.push({
+                    video_url: data.Location
+                  })
+                  r.save();
+                  res.render("mediafile",{
+                    message : "video uploaded",
+                    src : data.Location
+                  })
+                }).catch(err =>{ console.log(err);
+                  res.render("mediafile",{
+                    message : "video uploaded"
+                    })
+                  })
+                }
+                });
+            }
+             
+           });
+    }
+  })
+  
+    // res.send(`<html><body>gvhgcfcgf<iframe src="${kkraj}"></iframe></body></html>`)
 
 })
 module.exports =router;

@@ -6,7 +6,7 @@ const app = express();
 const key = require("./setup/connect").sceret;
 const sgMail = require('@sendgrid/mail');
 const cookieparser = require("cookie-parser");
-
+const fs = require('fs');
 
 const port = process.env.PORT ||5000;
 
@@ -24,11 +24,13 @@ app.set("view engine","ejs");
 
 //mongodb connection 
 const db =require("./setup/connect").mongodbURL;
-mongoose
+const s =async()=>{ 
+await mongoose
 .connect(db,{ useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true, useUnifiedTopology: true })
 .then(()=>console.log("mongodb connceted"))
 .catch(err =>console.log(err))
- 
+}
+s().catch(err => console.log(err))
 // @type    GET
 //@route    /
 // @desc    starting router

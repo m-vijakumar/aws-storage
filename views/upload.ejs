@@ -9,11 +9,19 @@
 <body>
     
     <center>
-        <form method="POST" action="/api/media/upload/aws">
-        <input type="file" name="mediafile" />
-        <input type="submit" value="uplaod" />
+            <form action="/api/media/upload/aws" method="POST" enctype="multipart/form-data">
+
+            <input type="file" name="mediafile"  required>
+            <button type="submit" class="btn btn-primary gap">Submit</button>
     </form>
     </center>
 
 </body>
+<script>
+ ($)=>{
+$('input[type=file]').change(function () {
+    console.log(this.files[0].mozFullPath);
+});
+}
+</script>
 </html>

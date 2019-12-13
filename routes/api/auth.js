@@ -17,8 +17,15 @@ const newusers= require("../../models/newuser");
 //HOME PAGE
 router.get("/",(req,res)=> {
     //res.send("welcome");
+    jsonwt.verify(req.cookies.auth_t, key, (err, user) => {
+        if(err){
+        return res.render("home");
+        }
+        else{
+            res.redirect("/dashboard");
+        }
+      })
     
-    res.render("home");
 });
 
 // @type    POST
