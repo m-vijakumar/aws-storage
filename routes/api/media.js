@@ -56,6 +56,7 @@ router.post("/upload/aws", async (req,res)=>{
        var uploadParams = {
          Bucket: 'proxynotes',
          Key: '',
+         ContentType:"video/mp4",
          ACL: 'public-read',
          Body: ''};
           
@@ -98,5 +99,32 @@ router.post("/upload/aws", async (req,res)=>{
   
     // res.send(`<html><body>gvhgcfcgf<iframe src="${kkraj}"></iframe></body></html>`)
 
+})
+
+
+router.get("/myvideos_list",(req,res)=>{
+let allvideos= [] ;
+  jsonwt.verify(req.cookies.auth_t, key, (err, user) => {
+    if(err){
+    return res.redirect("/login");
+    }
+    else{
+        newusers.findOne({email:user.email}).then(result =>{
+        
+         result.videos.forEach(a => {
+         
+       allvideos.push(a.video_url)
+      });
+      console.log("list  : " +allvideos)
+        return res.render("videoslist",{
+           src:allvideos
+       });
+        }).catch(err =>{
+          console.log(err);
+          res.render("error")
+        })
+     
+    }
+  })
 })
 module.exports =router;
