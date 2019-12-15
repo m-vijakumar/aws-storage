@@ -111,8 +111,7 @@ let allvideos= [] ;
     else{
         newusers.findOne({email:user.email}).then(result =>{
         
-         result.videos.forEach(a => {
-         
+         result.videos.forEach(a => {  
        allvideos.push(a.video_url)
       });
       console.log("list  : " +allvideos)
