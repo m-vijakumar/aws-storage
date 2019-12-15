@@ -109,7 +109,7 @@ var options = {
         }
         else{
 
-            sgMail.setApiKey('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');
+            sgMail.setApiKey('__YOUR_API_KEY__');
             const msg = {
             to: user.email,
             from: 'vijaykumar416p@gmail.com',
